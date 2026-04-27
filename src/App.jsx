@@ -27,14 +27,25 @@ import './App.css'
 
 const img = {
   hero: '/assets/crops/meal-kit-hero.png',
-  veg: '/assets/crops/veg-paneer-tray.png',
-  nonveg: '/assets/crops/nonveg-thali.png',
-  smoothie: '/assets/crops/smoothie-bowls.png',
-  protein: '/assets/crops/protein-bowl.png',
-  chicken: '/assets/crops/grilled-chicken.png',
-  roti: '/assets/crops/roti-curry.png',
-  yogurt: '/assets/crops/yogurt-bowl.png',
-  bottles: '/assets/crops/smoothie-bottles.png',
+  calmFuel: '/assets/products/calmfuel-box.png',
+  activeBite: '/assets/products/active-bite-thali.png',
+  energyPlus: '/assets/products/energy-plus-combo.png',
+  easyProtein: '/assets/products/easy-protein-meal.png',
+  workPro: '/assets/products/work-pro-meal.png',
+  smartProtein: '/assets/products/smart-protein-box.png',
+  chocolate: '/assets/products/chocolate-delight.png',
+  strawberry: '/assets/products/strawberry-protein.png',
+  berryBlast: '/assets/products/berry-blast.png',
+  greenCalm: '/assets/products/green-calm-bowl.png',
+  appleWhisper: '/assets/products/apple-whisper-bowl.png',
+  chocoCharge: '/assets/products/choco-charge-bowl.png',
+  proteinYogurt: '/assets/products/protein-yogurt-bowl.png',
+  berryYogurt: '/assets/products/berry-yogurt-bowl.png',
+  honeyNut: '/assets/products/honey-nut-yogurt-bowl.png',
+  mangoYogurt: '/assets/products/mango-yogurt-bowl.png',
+  moodMuffin: '/assets/products/mood-muffin.png',
+  datesCupcake: '/assets/products/dates-delight-cupcake.png',
+  cocoaCup: '/assets/products/cocoa-clean-cup.png',
   app: '/assets/crops/app-order.png',
   lunch: '/assets/crops/lunch-bag.png',
   grandma: '/assets/crops/grandma-cook.png',
@@ -54,25 +65,25 @@ const pageConfig = {
 const pages = Object.keys(pageConfig)
 
 const products = [
-  ['CalmFuel Box', 'Veg', 'Paneer, dal, rice, curd, carrot, broccoli', 'Paneer, dal, rice, curd, and greens for calmer workdays.', 540, 119, img.veg, 'Popular', [28, 58, 18, 12]],
-  ['Active Bite Thali', 'Veg', 'Roti, dal, seasonal sabzi, salad, lime', 'Roti, seasonal sabzi, dal, salad, and steady carbs.', 610, 129, img.roti, 'Fiber rich', [24, 72, 17, 14]],
-  ['Energy Plus Combo', 'Veg', 'Paneer bites, rice, peas, broccoli, yogurt', 'Paneer bites, rice, vegetables, and cooling yogurt.', 585, 139, img.protein, 'Desk fuel', [31, 62, 19, 13]],
-  ['Easy Protein Meal', 'Non-Veg', 'Grilled chicken, beans, broccoli, carrots, grains', 'Grilled chicken, vegetables, grain base, and clean seasoning.', 650, 169, img.chicken, 'Lean', [45, 46, 20, 10]],
-  ['Work Pro Meal', 'Non-Veg', 'Chicken curry, chapati, rice, salad, lime', 'Chicken curry, chapati, rice, salad, and lime freshness.', 710, 179, img.nonveg, 'Office', [41, 72, 22, 9]],
-  ['Smart Protein Box', 'Non-Veg', 'Chicken, grains, chickpeas, greens, tomatoes', 'Chicken, grains, chickpeas, greens, and crisp vegetables.', 690, 189, img.chicken, 'High protein', [52, 49, 21, 11]],
-  ['Chocolate Delight', 'Smoothies', 'Cocoa, oats, milk protein, dates, chia', 'Cocoa, oats, protein, dates, and dessert-style richness.', 330, 159, img.bottles, '20g protein', [22, 44, 9, 8]],
-  ['Strawberry Protein', 'Smoothies', 'Strawberry, yogurt, protein, chia, oats', 'Strawberry yogurt, protein, chia, and mellow sweetness.', 310, 159, img.smoothie, 'Fresh', [24, 38, 8, 7]],
-  ['Berry Blast', 'Smoothies', 'Mixed berries, oats, seeds, yogurt, almonds', 'Mixed berries, oats, seeds, yogurt, and a bright lift.', 295, 169, img.smoothie, 'Antioxidant', [18, 42, 8, 9]],
-  ['Green Calm Bowl', 'Bowls', 'Oats, banana, pistachio, seeds, green base', 'Oats, banana, pistachio, seeds, and a gentle green base.', 390, 199, img.protein, 'Oatmeal', [20, 56, 12, 10]],
-  ['Apple Whisper Bowl', 'Bowls', 'Apple, cinnamon, oats, almonds, yogurt', 'Apple, cinnamon, oats, almonds, yogurt, and slow energy.', 405, 209, img.yogurt, 'Oatmeal', [18, 60, 13, 9]],
-  ['Choco Charge Bowl', 'Bowls', 'Cocoa oats, banana, peanuts, seeds, protein', 'Cocoa oats, banana, peanuts, seeds, and protein crunch.', 430, 219, img.smoothie, 'Oatmeal', [24, 58, 15, 9]],
-  ['Protein Yogurt Bowl', 'Yogurt', 'Thick yogurt, whey, banana, granola, almonds', 'Thick yogurt, whey, banana, granola, seeds, and almonds.', 360, 189, img.yogurt, 'Yogurt', [30, 38, 10, 6]],
-  ['Berry Yogurt Bowl', 'Yogurt', 'Yogurt, berries, chia, oats, toasted nuts', 'Creamy yogurt layered with berries, chia, oats, and nuts.', 345, 199, img.smoothie, 'Yogurt', [22, 42, 11, 8]],
-  ['Honey Nut Yogurt Bowl', 'Yogurt', 'Yogurt, honey, walnuts, almonds, cinnamon', 'Yogurt, honey, walnuts, almonds, seeds, and cinnamon.', 410, 209, img.yogurt, 'Yogurt', [23, 44, 16, 7]],
-  ['Mango Yogurt Bowl', 'Yogurt', 'Mango, yogurt, oats, cashew, pumpkin seeds', 'Mango, yogurt, oats, cashew, pumpkin seeds, and summer sweetness.', 375, 199, img.smoothie, 'Yogurt', [21, 48, 10, 7]],
-  ['Mood Muffin', 'Treats', 'Ragi, cocoa, dates, nuts, yogurt frosting', 'Ragi-cocoa muffin with dates, nuts, and a lighter bakery bite.', 240, 89, img.bottles, 'Cupcake', [8, 34, 9, 5]],
-  ['Dates Delight Cupcake', 'Treats', 'Dates, almond flour, spice, cocoa, oats', 'Date-sweetened cupcake with almond flour and warm spice.', 225, 95, img.grandma, 'Cupcake', [7, 32, 8, 5]],
-  ['Cocoa Clean Cup', 'Treats', 'Clean cocoa, oats, yogurt, nuts, dates', 'Clean cocoa, oats, yogurt frosting, and a soft finish.', 250, 99, img.bottles, 'Cupcake', [9, 35, 8, 6]],
+  ['CalmFuel Box', 'Veg', 'Paneer, dal, rice, curd, carrot, broccoli', 'Paneer, dal, rice, curd, and greens for calmer workdays.', 540, 119, img.calmFuel, 'Popular', [28, 58, 18, 12]],
+  ['Active Bite Thali', 'Veg', 'Roti, dal, seasonal sabzi, salad, lime', 'Roti, seasonal sabzi, dal, salad, and steady carbs.', 610, 129, img.activeBite, 'Fiber rich', [24, 72, 17, 14]],
+  ['Energy Plus Combo', 'Veg', 'Paneer bites, rice, peas, broccoli, yogurt', 'Paneer bites, rice, vegetables, and cooling yogurt.', 585, 139, img.energyPlus, 'Desk fuel', [31, 62, 19, 13]],
+  ['Easy Protein Meal', 'Non-Veg', 'Grilled chicken, beans, broccoli, carrots, grains', 'Grilled chicken, vegetables, grain base, and clean seasoning.', 650, 169, img.easyProtein, 'Lean', [45, 46, 20, 10]],
+  ['Work Pro Meal', 'Non-Veg', 'Chicken curry, chapati, rice, salad, lime', 'Chicken curry, chapati, rice, salad, and lime freshness.', 710, 179, img.workPro, 'Office', [41, 72, 22, 9]],
+  ['Smart Protein Box', 'Non-Veg', 'Chicken, grains, chickpeas, greens, tomatoes', 'Chicken, grains, chickpeas, greens, and crisp vegetables.', 690, 189, img.smartProtein, 'High protein', [52, 49, 21, 11]],
+  ['Chocolate Delight', 'Smoothies', 'Cocoa, oats, milk protein, dates, chia', 'Cocoa, oats, protein, dates, and dessert-style richness.', 330, 159, img.chocolate, '20g protein', [22, 44, 9, 8]],
+  ['Strawberry Protein', 'Smoothies', 'Strawberry, yogurt, protein, chia, oats', 'Strawberry yogurt, protein, chia, and mellow sweetness.', 310, 159, img.strawberry, 'Fresh', [24, 38, 8, 7]],
+  ['Berry Blast', 'Smoothies', 'Mixed berries, oats, seeds, yogurt, almonds', 'Mixed berries, oats, seeds, yogurt, and a bright lift.', 295, 169, img.berryBlast, 'Antioxidant', [18, 42, 8, 9]],
+  ['Green Calm Bowl', 'Bowls', 'Oats, banana, pistachio, seeds, green base', 'Oats, banana, pistachio, seeds, and a gentle green base.', 390, 199, img.greenCalm, 'Oatmeal', [20, 56, 12, 10]],
+  ['Apple Whisper Bowl', 'Bowls', 'Apple, cinnamon, oats, almonds, yogurt', 'Apple, cinnamon, oats, almonds, yogurt, and slow energy.', 405, 209, img.appleWhisper, 'Oatmeal', [18, 60, 13, 9]],
+  ['Choco Charge Bowl', 'Bowls', 'Cocoa oats, banana, peanuts, seeds, protein', 'Cocoa oats, banana, peanuts, seeds, and protein crunch.', 430, 219, img.chocoCharge, 'Oatmeal', [24, 58, 15, 9]],
+  ['Protein Yogurt Bowl', 'Yogurt', 'Thick yogurt, whey, banana, granola, almonds', 'Thick yogurt, whey, banana, granola, seeds, and almonds.', 360, 189, img.proteinYogurt, 'Yogurt', [30, 38, 10, 6]],
+  ['Berry Yogurt Bowl', 'Yogurt', 'Yogurt, berries, chia, oats, toasted nuts', 'Creamy yogurt layered with berries, chia, oats, and nuts.', 345, 199, img.berryYogurt, 'Yogurt', [22, 42, 11, 8]],
+  ['Honey Nut Yogurt Bowl', 'Yogurt', 'Yogurt, honey, walnuts, almonds, cinnamon', 'Yogurt, honey, walnuts, almonds, seeds, and cinnamon.', 410, 209, img.honeyNut, 'Yogurt', [23, 44, 16, 7]],
+  ['Mango Yogurt Bowl', 'Yogurt', 'Mango, yogurt, oats, cashew, pumpkin seeds', 'Mango, yogurt, oats, cashew, pumpkin seeds, and summer sweetness.', 375, 199, img.mangoYogurt, 'Yogurt', [21, 48, 10, 7]],
+  ['Mood Muffin', 'Treats', 'Ragi, cocoa, dates, nuts, yogurt frosting', 'Ragi-cocoa muffin with dates, nuts, and a lighter bakery bite.', 240, 89, img.moodMuffin, 'Cupcake', [8, 34, 9, 5]],
+  ['Dates Delight Cupcake', 'Treats', 'Dates, almond flour, spice, cocoa, oats', 'Date-sweetened cupcake with almond flour and warm spice.', 225, 95, img.datesCupcake, 'Cupcake', [7, 32, 8, 5]],
+  ['Cocoa Clean Cup', 'Treats', 'Clean cocoa, oats, yogurt, nuts, dates', 'Clean cocoa, oats, yogurt frosting, and a soft finish.', 250, 99, img.cocoaCup, 'Cupcake', [9, 35, 8, 6]],
 ].map(([title, category, ingredients, description, calories, price, image, badge, macros]) => ({
   title,
   category,
@@ -104,7 +115,7 @@ function App() {
   const cartCount = cart.reduce((total, item) => total + item.qty, 0)
 
   const pageProducts = useMemo(() => {
-    const category = pageConfig[page].category
+    const category = pageConfig[page]?.category || 'All'
     return category === 'All' ? products : products.filter((item) => item.category === category)
   }, [page])
 
@@ -129,7 +140,7 @@ function App() {
   }
 
   function goCheckout() {
-    setPage(profile.name ? 'Address' : 'Register')
+    setPage('Payment')
     setDrawerOpen(false)
   }
 
@@ -153,9 +164,6 @@ function App() {
             )
           })}
         </nav>
-        <button className="checkout-side" type="button" onClick={goCheckout}>
-          <CreditCard size={18} /> Checkout Flow
-        </button>
         <div className="side-card">
           <img src={img.grandma} alt="Home cook preparing food" />
           <strong>Homemade in spirit</strong>
@@ -442,8 +450,9 @@ function Address({ address, setAddress, next }) {
 }
 
 function Payment({ cart, subtotal, payment, setPayment, back }) {
-  const methods = ['UPI', 'Card', 'Cash on Delivery']
-  const [details, setDetails] = useState({ upi: '', card: '', expiry: '' })
+  const methods = ['UPI', 'Credit Card', 'Debit Card', 'Cash on Delivery']
+  const [details, setDetails] = useState({ upi: '', creditCard: '', debitCard: '', expiry: '' })
+  const cardKey = payment === 'Credit Card' ? 'creditCard' : 'debitCard'
   return (
     <section className="payment-page">
       <div className="payment-main glass liquid">
@@ -457,9 +466,9 @@ function Payment({ cart, subtotal, payment, setPayment, back }) {
             </button>
           ))}
         </div>
-        {payment === 'Card' && (
+        {(payment === 'Credit Card' || payment === 'Debit Card') && (
           <div className="card-grid">
-            <Field label="Card number" value={details.card} onChange={(value) => setDetails({ ...details, card: value })} placeholder="4242 4242 4242 4242" />
+            <Field label={`${payment} number`} value={details[cardKey]} onChange={(value) => setDetails({ ...details, [cardKey]: value })} placeholder="4242 4242 4242 4242" />
             <Field label="Expiry" value={details.expiry} onChange={(value) => setDetails({ ...details, expiry: value })} placeholder="MM/YY" />
           </div>
         )}

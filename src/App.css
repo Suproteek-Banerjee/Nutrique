@@ -60,8 +60,7 @@ button {
 }
 
 .brand,
-.sidebar nav button,
-.checkout-side {
+.sidebar nav button {
   display: flex;
   align-items: center;
   border: 0;
@@ -111,8 +110,7 @@ h3 {
   gap: 8px;
 }
 
-.sidebar nav button,
-.checkout-side {
+.sidebar nav button {
   gap: 10px;
   width: 100%;
   padding: 12px;
@@ -121,15 +119,9 @@ h3 {
 }
 
 .sidebar nav button.active,
-.sidebar nav button:hover,
-.checkout-side:hover {
+.sidebar nav button:hover {
   color: var(--green);
   background: var(--gold);
-}
-
-.checkout-side {
-  margin-top: 4px;
-  border: 1px solid rgba(255, 250, 240, 0.18);
 }
 
 .side-card {
@@ -878,7 +870,6 @@ select {
 
   .brand div,
   .sidebar nav button,
-  .checkout-side,
   .side-card {
     font-size: 0;
   }
@@ -888,8 +879,7 @@ select {
     padding: 18px 14px;
   }
 
-  .sidebar nav button,
-  .checkout-side {
+  .sidebar nav button {
     justify-content: center;
     width: 48px;
     height: 48px;
