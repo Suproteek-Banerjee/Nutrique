@@ -1,302 +1,126 @@
 import { useMemo, useState } from 'react'
 import {
   BadgePercent,
-  Beef,
   Bike,
   CalendarCheck,
+  CheckCircle2,
   ChevronDown,
   Clock3,
-  Heart,
+  CreditCard,
+  CupSoda,
   Home,
   Leaf,
+  LocateFixed,
   MapPin,
   Minus,
-  PackageCheck,
   Plus,
   Search,
   ShieldCheck,
   ShoppingCart,
   Sparkles,
-  Star,
-  UserRoundCheck,
+  UserRound,
+  Utensils,
   Wheat,
   X,
-  Zap,
 } from 'lucide-react'
 import './App.css'
 
-const assets = {
-  hero: '/assets/brand-hero.png',
-  thankYou: '/assets/brand-thank-you.png',
-  vision: '/assets/vision-collage.png',
-  finance: '/assets/financial-projection.png',
-  pricing: '/assets/pricing-smart.png',
-  how: '/assets/how-it-works.png',
-  grandmother: '/assets/grandmother-made.png',
-  balanced: '/assets/balanced-meal.png',
-  menu: '/assets/menu-categories.png',
-  problem: '/assets/problem-solution.png',
-  team: '/assets/team-brand.png',
-  pillars: '/assets/nutrition-pillars.png',
+const img = {
+  hero: '/assets/crops/meal-kit-hero.png',
+  veg: '/assets/crops/veg-paneer-tray.png',
+  nonveg: '/assets/crops/nonveg-thali.png',
+  smoothie: '/assets/crops/smoothie-bowls.png',
+  protein: '/assets/crops/protein-bowl.png',
+  chicken: '/assets/crops/grilled-chicken.png',
+  roti: '/assets/crops/roti-curry.png',
+  yogurt: '/assets/crops/yogurt-bowl.png',
+  bottles: '/assets/crops/smoothie-bottles.png',
+  app: '/assets/crops/app-order.png',
+  lunch: '/assets/crops/lunch-bag.png',
+  grandma: '/assets/crops/grandma-cook.png',
 }
 
-const assetCatalog = [
-  ['Meals', assets.menu],
-  ['Smoothies', assets.vision],
-  ['Bowls', assets.balanced],
-  ['Branding', assets.hero],
-  ['Backgrounds', assets.grandmother],
-  ['Pricing', assets.pricing],
-  ['App flow', assets.how],
-  ['Nutrition', assets.pillars],
-  ['Problem', assets.problem],
-  ['Team', assets.team],
-  ['Growth', assets.finance],
-  ['Thanks', assets.thankYou],
-]
+const pageConfig = {
+  Dashboard: { title: 'Dashboard', icon: Home, category: 'All' },
+  Veg: { title: 'Vegetarian Meals', icon: Leaf, category: 'Veg' },
+  'Non-Veg': { title: 'Non-Vegetarian Meals', icon: Utensils, category: 'Non-Veg' },
+  Smoothies: { title: 'Smoothies', icon: CupSoda, category: 'Smoothies' },
+  Bowls: { title: 'Oatmeal Bowls', icon: Wheat, category: 'Bowls' },
+  Yogurt: { title: 'Yogurt Bowls', icon: ShieldCheck, category: 'Yogurt' },
+  Treats: { title: 'Health Treats', icon: Sparkles, category: 'Treats' },
+  Plans: { title: 'Subscriptions', icon: CalendarCheck, category: 'All' },
+}
 
-const categories = ['Veg', 'Non-Veg', 'Diet', 'Bowls', 'Smoothies', 'Treats']
+const pages = Object.keys(pageConfig)
 
 const products = [
-  {
-    title: 'CalmFuel Box',
-    category: 'Veg',
-    tag: 'Vegetarian',
-    description: 'Paneer, dal, rice, vegetables, curd, and a slow-energy finish.',
-    calories: 540,
-    price: 119,
-    image: assets.menu,
-    icon: Leaf,
-  },
-  {
-    title: 'Active Bite Thali',
-    category: 'Veg',
-    tag: 'High fiber',
-    description: 'Homestyle roti, seasonal sabzi, dal, salad, and balanced carbs.',
-    calories: 610,
-    price: 129,
-    image: assets.hero,
-    icon: Wheat,
-  },
-  {
-    title: 'Energy Plus Combo',
-    category: 'Veg',
-    tag: 'Desk work',
-    description: 'Protein-rich paneer bites, rice, greens, and cooling yogurt.',
-    calories: 585,
-    price: 139,
-    image: assets.balanced,
-    icon: Zap,
-  },
-  {
-    title: 'Easy Protein Meal',
-    category: 'Non-Veg',
-    tag: 'Lean protein',
-    description: 'Grilled chicken, rice, dal, salad, and comfort-style curry.',
-    calories: 650,
-    price: 169,
-    image: assets.balanced,
-    icon: Beef,
-  },
-  {
-    title: 'Work Pro Meal',
-    category: 'Non-Veg',
-    tag: 'Office fuel',
-    description: 'Chicken curry, chapati, rice, vegetables, and a fresh lime bite.',
-    calories: 710,
-    price: 179,
-    image: assets.menu,
-    icon: PackageCheck,
-  },
-  {
-    title: 'Smart Protein Box',
-    category: 'Non-Veg',
-    tag: 'Training day',
-    description: 'Chicken breast, chickpeas, greens, grains, and crisp vegetables.',
-    calories: 690,
-    price: 189,
-    image: assets.pillars,
-    icon: ShieldCheck,
-  },
-  {
-    title: 'Chocolate Delight',
-    category: 'Smoothies',
-    tag: '20g protein',
-    description: 'Cocoa, oats, milk protein, dates, and a clean dessert feel.',
-    calories: 330,
-    price: 159,
-    image: assets.vision,
-    icon: Sparkles,
-  },
-  {
-    title: 'Strawberry Protein',
-    category: 'Smoothies',
-    tag: 'Post workout',
-    description: 'Strawberry, yogurt, protein, chia, and mellow natural sweetness.',
-    calories: 310,
-    price: 159,
-    image: assets.menu,
-    icon: Heart,
-  },
-  {
-    title: 'Berry Blast',
-    category: 'Smoothies',
-    tag: 'Antioxidant',
-    description: 'Mixed berries, oats, seeds, yogurt, and a bright morning lift.',
-    calories: 295,
-    price: 169,
-    image: assets.vision,
-    icon: Zap,
-  },
-  {
-    title: 'Green Calm Bowl',
-    category: 'Bowls',
-    tag: 'Oatmeal',
-    description: 'Oats, banana, pistachio, seeds, and a gentle green smoothie base.',
-    calories: 390,
-    price: 199,
-    image: assets.balanced,
-    icon: Leaf,
-  },
-  {
-    title: 'Apple Whisper Bowl',
-    category: 'Bowls',
-    tag: 'Oatmeal',
-    description: 'Apple, cinnamon, oats, almonds, yogurt, and slow-release energy.',
-    calories: 405,
-    price: 209,
-    image: assets.pillars,
-    icon: Wheat,
-  },
-  {
-    title: 'Choco Charge Bowl',
-    category: 'Bowls',
-    tag: 'Oatmeal',
-    description: 'Cocoa oats, banana, peanuts, seeds, and protein-rich crunch.',
-    calories: 430,
-    price: 219,
-    image: assets.vision,
-    icon: Zap,
-  },
-  {
-    title: 'Protein Yogurt Bowl',
-    category: 'Diet',
-    tag: 'Yogurt bowl',
-    description: 'Thick yogurt, whey, banana, granola, seeds, and almond crunch.',
-    calories: 360,
-    price: 189,
-    image: assets.balanced,
-    icon: ShieldCheck,
-  },
-  {
-    title: 'Berry Yogurt Bowl',
-    category: 'Diet',
-    tag: 'Yogurt bowl',
-    description: 'Creamy yogurt layered with berries, chia, oats, and toasted nuts.',
-    calories: 345,
-    price: 199,
-    image: assets.vision,
-    icon: Heart,
-  },
-  {
-    title: 'Honey Nut Yogurt Bowl',
-    category: 'Diet',
-    tag: 'Yogurt bowl',
-    description: 'Yogurt, honey, walnuts, almonds, seeds, and light cinnamon.',
-    calories: 410,
-    price: 209,
-    image: assets.pillars,
-    icon: Sparkles,
-  },
-  {
-    title: 'Mango Yogurt Bowl',
-    category: 'Diet',
-    tag: 'Yogurt bowl',
-    description: 'Mango, yogurt, oats, cashew, pumpkin seeds, and summer sweetness.',
-    calories: 375,
-    price: 199,
-    image: assets.vision,
-    icon: Leaf,
-  },
-  {
-    title: 'Mood Muffin',
-    category: 'Treats',
-    tag: 'Cupcake',
-    description: 'Ragi-cocoa muffin with dates, nuts, and a lighter bakery bite.',
-    calories: 240,
-    price: 89,
-    image: assets.thankYou,
-    icon: Heart,
-  },
-  {
-    title: 'Dates Delight Cupcake',
-    category: 'Treats',
-    tag: 'Cupcake',
-    description: 'Date-sweetened cupcake with almond flour and warm spice notes.',
-    calories: 225,
-    price: 95,
-    image: assets.grandmother,
-    icon: Sparkles,
-  },
-  {
-    title: 'Cocoa Clean Cup',
-    category: 'Treats',
-    tag: 'Cupcake',
-    description: 'Clean cocoa, oats, yogurt frosting, and a soft chocolate finish.',
-    calories: 250,
-    price: 99,
-    image: assets.vision,
-    icon: Zap,
-  },
-]
+  ['CalmFuel Box', 'Veg', 'Paneer, dal, rice, curd, carrot, broccoli', 'Paneer, dal, rice, curd, and greens for calmer workdays.', 540, 119, img.veg, 'Popular', [28, 58, 18, 12]],
+  ['Active Bite Thali', 'Veg', 'Roti, dal, seasonal sabzi, salad, lime', 'Roti, seasonal sabzi, dal, salad, and steady carbs.', 610, 129, img.roti, 'Fiber rich', [24, 72, 17, 14]],
+  ['Energy Plus Combo', 'Veg', 'Paneer bites, rice, peas, broccoli, yogurt', 'Paneer bites, rice, vegetables, and cooling yogurt.', 585, 139, img.protein, 'Desk fuel', [31, 62, 19, 13]],
+  ['Easy Protein Meal', 'Non-Veg', 'Grilled chicken, beans, broccoli, carrots, grains', 'Grilled chicken, vegetables, grain base, and clean seasoning.', 650, 169, img.chicken, 'Lean', [45, 46, 20, 10]],
+  ['Work Pro Meal', 'Non-Veg', 'Chicken curry, chapati, rice, salad, lime', 'Chicken curry, chapati, rice, salad, and lime freshness.', 710, 179, img.nonveg, 'Office', [41, 72, 22, 9]],
+  ['Smart Protein Box', 'Non-Veg', 'Chicken, grains, chickpeas, greens, tomatoes', 'Chicken, grains, chickpeas, greens, and crisp vegetables.', 690, 189, img.chicken, 'High protein', [52, 49, 21, 11]],
+  ['Chocolate Delight', 'Smoothies', 'Cocoa, oats, milk protein, dates, chia', 'Cocoa, oats, protein, dates, and dessert-style richness.', 330, 159, img.bottles, '20g protein', [22, 44, 9, 8]],
+  ['Strawberry Protein', 'Smoothies', 'Strawberry, yogurt, protein, chia, oats', 'Strawberry yogurt, protein, chia, and mellow sweetness.', 310, 159, img.smoothie, 'Fresh', [24, 38, 8, 7]],
+  ['Berry Blast', 'Smoothies', 'Mixed berries, oats, seeds, yogurt, almonds', 'Mixed berries, oats, seeds, yogurt, and a bright lift.', 295, 169, img.smoothie, 'Antioxidant', [18, 42, 8, 9]],
+  ['Green Calm Bowl', 'Bowls', 'Oats, banana, pistachio, seeds, green base', 'Oats, banana, pistachio, seeds, and a gentle green base.', 390, 199, img.protein, 'Oatmeal', [20, 56, 12, 10]],
+  ['Apple Whisper Bowl', 'Bowls', 'Apple, cinnamon, oats, almonds, yogurt', 'Apple, cinnamon, oats, almonds, yogurt, and slow energy.', 405, 209, img.yogurt, 'Oatmeal', [18, 60, 13, 9]],
+  ['Choco Charge Bowl', 'Bowls', 'Cocoa oats, banana, peanuts, seeds, protein', 'Cocoa oats, banana, peanuts, seeds, and protein crunch.', 430, 219, img.smoothie, 'Oatmeal', [24, 58, 15, 9]],
+  ['Protein Yogurt Bowl', 'Yogurt', 'Thick yogurt, whey, banana, granola, almonds', 'Thick yogurt, whey, banana, granola, seeds, and almonds.', 360, 189, img.yogurt, 'Yogurt', [30, 38, 10, 6]],
+  ['Berry Yogurt Bowl', 'Yogurt', 'Yogurt, berries, chia, oats, toasted nuts', 'Creamy yogurt layered with berries, chia, oats, and nuts.', 345, 199, img.smoothie, 'Yogurt', [22, 42, 11, 8]],
+  ['Honey Nut Yogurt Bowl', 'Yogurt', 'Yogurt, honey, walnuts, almonds, cinnamon', 'Yogurt, honey, walnuts, almonds, seeds, and cinnamon.', 410, 209, img.yogurt, 'Yogurt', [23, 44, 16, 7]],
+  ['Mango Yogurt Bowl', 'Yogurt', 'Mango, yogurt, oats, cashew, pumpkin seeds', 'Mango, yogurt, oats, cashew, pumpkin seeds, and summer sweetness.', 375, 199, img.smoothie, 'Yogurt', [21, 48, 10, 7]],
+  ['Mood Muffin', 'Treats', 'Ragi, cocoa, dates, nuts, yogurt frosting', 'Ragi-cocoa muffin with dates, nuts, and a lighter bakery bite.', 240, 89, img.bottles, 'Cupcake', [8, 34, 9, 5]],
+  ['Dates Delight Cupcake', 'Treats', 'Dates, almond flour, spice, cocoa, oats', 'Date-sweetened cupcake with almond flour and warm spice.', 225, 95, img.grandma, 'Cupcake', [7, 32, 8, 5]],
+  ['Cocoa Clean Cup', 'Treats', 'Clean cocoa, oats, yogurt, nuts, dates', 'Clean cocoa, oats, yogurt frosting, and a soft finish.', 250, 99, img.bottles, 'Cupcake', [9, 35, 8, 6]],
+].map(([title, category, ingredients, description, calories, price, image, badge, macros]) => ({
+  title,
+  category,
+  ingredients,
+  description,
+  calories,
+  price,
+  image,
+  badge,
+  macros: { protein: macros[0], carbs: macros[1], fats: macros[2], fiber: macros[3] },
+}))
 
 const offers = [
-  ['Flat 20% OFF', 'Weekly plans for office teams', assets.pricing, BadgePercent],
-  ['Free Delivery', 'First order in your area', assets.how, Bike],
-  ['High Protein Meals', 'Built for working professionals', assets.balanced, ShieldCheck],
-  ['Subscribe & Save', 'Fresh boxes all week', assets.finance, CalendarCheck],
-]
-
-const features = [
-  [UserRoundCheck, 'Job-Based Nutrition', 'Meals mapped for hard work, desk work, and special care.'],
-  [Home, 'Homemade with Care', 'Prepared with traditional recipes and familiar comfort.'],
-  [Wheat, 'Balanced Diet', 'Protein, carbs, fats, and fiber designed into every box.'],
-  [ShieldCheck, 'Hygienic & Fresh', 'Clean prep, reliable packaging, and fresh daily delivery.'],
-  [CalendarCheck, 'Subscription Friendly', 'Daily, weekly, and monthly ordering without friction.'],
-]
-
-const plans = [
-  ['Weekly Plan', '5 meals', '20% OFF', 'Perfect for work weeks', 549],
-  ['Monthly Plan', '24 meals', 'Best Value', 'Save more with recurring delivery', 2399],
+  ['20% OFF weekly', 'For Jabalpur office lunches', BadgePercent],
+  ['Free first delivery', 'Civil Lines, Napier Town, Vijay Nagar', Bike],
+  ['High protein picks', 'Meals for long desk hours', ShieldCheck],
 ]
 
 function App() {
-  const [activeCategory, setActiveCategory] = useState('Veg')
-  const [cartOpen, setCartOpen] = useState(false)
+  const [page, setPage] = useState('Dashboard')
   const [cart, setCart] = useState([])
+  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [selected, setSelected] = useState(null)
+  const [profile, setProfile] = useState({ name: '', phone: '', email: '' })
+  const [address, setAddress] = useState({ line: '', area: 'Civil Lines', note: '' })
+  const [payment, setPayment] = useState('UPI')
 
-  const visibleProducts = useMemo(
-    () => products.filter((item) => item.category === activeCategory),
-    [activeCategory],
-  )
+  const subtotal = cart.reduce((total, item) => total + item.qty * item.price, 0)
+  const cartCount = cart.reduce((total, item) => total + item.qty, 0)
 
-  const cartTotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0)
-  const cartCount = cart.reduce((sum, item) => sum + item.qty, 0)
+  const pageProducts = useMemo(() => {
+    const category = pageConfig[page].category
+    return category === 'All' ? products : products.filter((item) => item.category === category)
+  }, [page])
 
-  function addToCart(product) {
+  function add(product) {
     setCart((items) => {
-      const exists = items.find((item) => item.title === product.title)
-      if (exists) {
+      const match = items.find((item) => item.title === product.title)
+      if (match) {
         return items.map((item) =>
           item.title === product.title ? { ...item, qty: item.qty + 1 } : item,
         )
       }
       return [...items, { ...product, qty: 1 }]
     })
-    setCartOpen(true)
   }
 
-  function updateQty(title, delta) {
+  function update(title, delta) {
     setCart((items) =>
       items
         .map((item) => (item.title === title ? { ...item, qty: item.qty + delta } : item))
@@ -304,271 +128,408 @@ function App() {
     )
   }
 
+  function goCheckout() {
+    setPage(profile.name ? 'Address' : 'Register')
+    setDrawerOpen(false)
+  }
+
   return (
-    <main>
-      <nav className="navbar">
-        <a className="brand" href="#top" aria-label="Nutrique home">
-          <span className="brand-mark"><Leaf size={22} /></span>
-          <span>
+    <div className="app-shell">
+      <aside className="sidebar glass-dark">
+        <button className="brand" type="button" onClick={() => setPage('Dashboard')}>
+          <span><Leaf size={22} /></span>
+          <div>
             <strong>NUTRIQUE</strong>
             <small>Meal Kits</small>
-          </span>
-        </a>
-        <button className="location" type="button">
-          <MapPin size={18} /> Koramangala <ChevronDown size={16} />
-        </button>
-        <label className="search">
-          <Search size={18} />
-          <input placeholder="Search meals, bowls, smoothies..." />
-        </label>
-        <button className="cart-button" type="button" onClick={() => setCartOpen(true)}>
-          <ShoppingCart size={20} />
-          <span>{cartCount}</span>
-        </button>
-      </nav>
-
-      <section className="hero-section" id="top">
-        <img src={assets.hero} alt="Nutrique meal kit with homestyle Indian meal" />
-        <div className="hero-overlay" />
-        <div className="hero-copy">
-          <span className="eyebrow"><Sparkles size={16} /> Healthy. Homemade. Heartfelt.</span>
-          <h1>Fuel Your Work. Nourish Your Life.</h1>
-          <p>
-            Premium meal kits, smoothies, bowls, and clean treats for busy Indian professionals.
-          </p>
-          <div className="hero-actions">
-            <a href="#menu" className="primary-action">Order Now</a>
-            <a href="#plans" className="secondary-action">View Plans</a>
           </div>
+        </button>
+        <nav>
+          {pages.map((name) => {
+            const Icon = pageConfig[name].icon
+            return (
+              <button className={page === name ? 'active' : ''} key={name} onClick={() => setPage(name)} type="button">
+                <Icon size={19} /> {name}
+              </button>
+            )
+          })}
+        </nav>
+        <button className="checkout-side" type="button" onClick={goCheckout}>
+          <CreditCard size={18} /> Checkout Flow
+        </button>
+        <div className="side-card">
+          <img src={img.grandma} alt="Home cook preparing food" />
+          <strong>Homemade in spirit</strong>
+          <span>Fresh meals built around Indian comfort and better macros.</span>
         </div>
-        <div className="hero-panel">
-          <strong>From ₹89</strong>
-          <span>Daily fresh meals in 35 mins</span>
-        </div>
-      </section>
+      </aside>
 
-      <section className="offers" aria-label="Dynamic offers">
-        {offers.map(([title, text, image, Icon]) => (
-          <article className="offer-card" key={title}>
-            <img src={image} alt="" />
-            <div>
-              <Icon size={22} />
-              <strong>{title}</strong>
-              <span>{text}</span>
-            </div>
-          </article>
-        ))}
-      </section>
+      <main className="workspace">
+        <header className="topbar">
+          <button className="location glass" type="button" onClick={() => setPage('Address')}>
+            <MapPin size={18} /> Jabalpur <ChevronDown size={15} />
+          </button>
+          <label className="search glass">
+            <Search size={18} />
+            <input placeholder="Search paneer, protein bowl, smoothie..." />
+          </label>
+          <button className="cart-button glass" type="button" onClick={() => setDrawerOpen(true)}>
+            <ShoppingCart size={20} />
+            <span>{cartCount}</span>
+          </button>
+        </header>
 
-      <section className="split-story">
-        <div>
-          <span className="eyebrow"><Clock3 size={16} /> Fast commerce, real nutrition</span>
-          <h2>Healthy food that behaves like your favorite delivery app.</h2>
-          <p>
-            Nutrique blends DoorDash-style speed, Instamart-style convenience, and combo-led food
-            offers with a warm homemade identity from the deck.
-          </p>
-        </div>
-        <img src={assets.problem} alt="Nutrique problem and healthier meal solution" />
-      </section>
+        {page === 'Register' && (
+          <Register profile={profile} setProfile={setProfile} next={() => setPage('Address')} />
+        )}
+        {page === 'Address' && (
+          <Address address={address} setAddress={setAddress} next={() => setPage('Payment')} />
+        )}
+        {page === 'Payment' && (
+          <Payment
+            cart={cart}
+            subtotal={subtotal}
+            payment={payment}
+            setPayment={setPayment}
+            back={() => setPage('Address')}
+          />
+        )}
+        {!['Register', 'Address', 'Payment'].includes(page) && (
+          <>
+            {page === 'Dashboard' && (
+              <>
+                <section className="hero-panel liquid">
+                  <div className="hero-copy">
+                    <span className="eyebrow"><Sparkles size={15} /> Live in Jabalpur</span>
+                    <h1>Fuel Your Work. Nourish Your Life.</h1>
+                    <p>Curated homestyle meal kits, smoothies, yogurt bowls, and clean treats.</p>
+                    <div className="hero-actions">
+                      <button type="button" onClick={() => setPage('Veg')}>Order Now</button>
+                      <button type="button" onClick={() => setPage('Plans')}>View Plans</button>
+                    </div>
+                  </div>
+                  <div className="hero-food">
+                    <img src={img.hero} alt="Nutrique packaged meal kit with tray" />
+                  </div>
+                  <div className="quick-stat">
+                    <strong>35 min</strong>
+                    <span>average delivery</span>
+                  </div>
+                </section>
+                <section className="offer-grid" aria-label="Offers">
+                  {offers.map(([title, text, Icon]) => (
+                    <article className="glass" key={title}>
+                      <Icon size={21} />
+                      <div>
+                        <strong>{title}</strong>
+                        <span>{text}</span>
+                      </div>
+                    </article>
+                  ))}
+                </section>
+              </>
+            )}
+            {page === 'Plans' ? (
+              <Plans setPage={setPage} />
+            ) : (
+              <AppContent
+                page={page}
+                products={pageProducts}
+                cart={cart}
+                cartCount={cartCount}
+                subtotal={subtotal}
+                update={update}
+                add={add}
+                openProduct={setSelected}
+                checkout={goCheckout}
+              />
+            )}
+          </>
+        )}
+      </main>
 
-      <section className="menu-section" id="menu">
-        <div className="section-heading">
-          <span className="eyebrow"><Leaf size={16} /> Extracted menu system</span>
-          <h2>Choose your Nutrique box</h2>
-          <p>Vegetarian, non-vegetarian, smoothies, oatmeal bowls, yogurt bowls, and health treats.</p>
-        </div>
-        <div className="tabs" role="tablist" aria-label="Meal categories">
-          {categories.map((category) => (
-            <button
-              className={activeCategory === category ? 'active' : ''}
-              key={category}
-              onClick={() => setActiveCategory(category)}
-              role="tab"
-              type="button"
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-        <div className="product-grid">
-          {visibleProducts.map((product) => (
-            <ProductCard key={product.title} product={product} onAdd={addToCart} />
-          ))}
-        </div>
-      </section>
-
-      <section className="nutrition-band">
-        <img src={assets.balanced} alt="Balanced Nutrique meal and macro nutrition" />
-        <div>
-          <span className="eyebrow"><Star size={16} /> Balanced by design</span>
-          <h2>Job-based nutrition for real workdays.</h2>
-          <p>
-            The menu keeps calories practical, protein visible, and ingredients familiar: rice,
-            roti, paneer, chicken, yogurt, fruit, nuts, oats, and clean dessert options.
-          </p>
-          <div className="macro-row">
-            <span>30% protein</span>
-            <span>40% carbs</span>
-            <span>20% fats</span>
-            <span>10% fiber</span>
-          </div>
-        </div>
-      </section>
-
-      <section className="features">
-        {features.map(([Icon, title, text]) => (
-          <article key={title}>
-            <Icon size={26} />
-            <strong>{title}</strong>
-            <span>{text}</span>
-          </article>
-        ))}
-      </section>
-
-      <section className="plans" id="plans">
-        <div className="section-heading">
-          <span className="eyebrow"><CalendarCheck size={16} /> Subscription UI</span>
-          <h2>Plans built for repeat ordering</h2>
-        </div>
-        <div className="plan-grid">
-          {plans.map(([title, meals, badge, text, price]) => (
-            <article className="plan-card" key={title}>
-              <span className={badge === 'Best Value' ? 'best badge' : 'badge'}>{badge}</span>
-              <h3>{title}</h3>
-              <p>{text}</p>
-              <strong>₹{price}</strong>
-              <small>{meals} included</small>
-              <button type="button" onClick={() => setCartOpen(true)}>Start plan</button>
-            </article>
-          ))}
-        </div>
-        <img src={assets.pricing} alt="Nutrique smart pricing and unit economics" />
-      </section>
-
-      <section className="care-section">
-        <img src={assets.grandmother} alt="Grandmother preparing Nutrique homemade meals" />
-        <div>
-          <span className="eyebrow"><Home size={16} /> Slightly Indian, deeply homemade</span>
-          <h2>Made with love by experienced home cooks.</h2>
-          <p>
-            The brand story stays visible in the app: care, transparency, elder employment, and
-            food that feels prepared for a family member.
-          </p>
-        </div>
-      </section>
-
-      <section className="app-showcase">
-        <img src={assets.how} alt="Nutrique app ordering workflow" />
-        <img src={assets.pillars} alt="Nutrique nutrition pillars" />
-      </section>
-
-      <section className="asset-wall">
-        <div className="section-heading">
-          <span className="eyebrow"><PackageCheck size={16} /> All assets scanned and used</span>
-          <h2>Visual system mapped across the prototype</h2>
-        </div>
-        <div className="asset-grid">
-          {assetCatalog.map(([label, image]) => (
-            <figure key={label}>
-              <img src={image} alt={`${label} visual asset`} />
-              <figcaption>{label}</figcaption>
-            </figure>
-          ))}
-        </div>
-      </section>
-
-      <footer>
-        <img src={assets.thankYou} alt="Nutrique thank you brand slide" />
-        <div>
-          <strong>NUTRIQUE Meal Kits</strong>
-          <span>Real food. Real people. Real impact.</span>
-        </div>
-      </footer>
-
+      <ProductDetail product={selected} add={add} close={() => setSelected(null)} />
       <CartDrawer
+        open={drawerOpen}
+        close={() => setDrawerOpen(false)}
         cart={cart}
-        cartOpen={cartOpen}
-        cartTotal={cartTotal}
-        updateQty={updateQty}
-        close={() => setCartOpen(false)}
+        update={update}
+        subtotal={subtotal}
+        checkout={goCheckout}
       />
-
-      <div className="mobile-order-bar">
-        <span>{cartCount || 1} item ready</span>
-        <button type="button" onClick={() => setCartOpen(true)}>
-          View cart · ₹{cartTotal || 119}
-        </button>
-      </div>
-    </main>
+    </div>
   )
 }
 
-function ProductCard({ product, onAdd }) {
-  const Icon = product.icon
+function AppContent({ page, products: items, cart, cartCount, subtotal, update, add, openProduct, checkout }) {
   return (
-    <article className="product-card">
-      <div className="product-image">
-        <img src={product.image} alt={product.title} />
-        <span>{product.tag}</span>
-      </div>
-      <div className="product-body">
-        <div className="product-title">
-          <Icon size={19} />
-          <h3>{product.title}</h3>
+    <div className="content-grid">
+      <section className="menu-panel glass" id="meals">
+        <div className="panel-head">
+          <div>
+            <span className="kicker">{page === 'Dashboard' ? 'Menu' : 'Separate Page'}</span>
+            <h2>{page === 'Dashboard' ? 'Today’s Meal Counter' : pageConfig[page].title}</h2>
+          </div>
+          <span className="open-chip"><Clock3 size={15} /> Open till 10 PM</span>
         </div>
+        <div className="product-grid">
+          {items.map((product) => (
+            <Product key={product.title} product={product} add={add} openProduct={openProduct} />
+          ))}
+        </div>
+      </section>
+      <aside className="right-rail">
+        <Basket cart={cart} cartCount={cartCount} subtotal={subtotal} update={update} checkout={checkout} />
+        <section className="mini-detail glass">
+          <span className="kicker">Selected Item</span>
+          <img src={items[0]?.image || img.hero} alt="" />
+          <strong>{items[0]?.title || 'Nutrique Meal'}</strong>
+          <span>Click any menu card to see ingredients, macros, and calories.</span>
+        </section>
+      </aside>
+    </div>
+  )
+}
+
+function Product({ product, add, openProduct }) {
+  return (
+    <article className="product-card glass">
+      <button className="image-button" type="button" onClick={() => openProduct(product)}>
+        <img src={product.image} alt={product.title} />
+      </button>
+      <div>
+        <span>{product.badge}</span>
+        <h3>{product.title}</h3>
         <p>{product.description}</p>
         <div className="product-meta">
-          <span>{product.calories} kcal</span>
+          <small>{product.calories} kcal</small>
           <strong>₹{product.price}</strong>
         </div>
-        <button type="button" onClick={() => onAdd(product)}>
-          <Plus size={17} /> Add to Cart
-        </button>
+        <div className="card-actions">
+          <button type="button" onClick={() => openProduct(product)}>Details</button>
+          <button type="button" onClick={() => add(product)}><Plus size={16} /> Add</button>
+        </div>
       </div>
     </article>
   )
 }
 
-function CartDrawer({ cart, cartOpen, cartTotal, updateQty, close }) {
+function ProductDetail({ product, add, close }) {
+  if (!product) return null
   return (
-    <aside className={`cart-drawer ${cartOpen ? 'open' : ''}`} aria-label="Cart drawer">
-      <div className="cart-head">
+    <div className="modal-backdrop" onClick={close}>
+      <section className="product-modal glass" onClick={(event) => event.stopPropagation()}>
+        <button className="modal-close" type="button" onClick={close}><X size={20} /></button>
+        <img src={product.image} alt={product.title} />
         <div>
-          <strong>Your Nutrique Cart</strong>
-          <span>{cart.length ? 'Freshly packed, delivered today' : 'Add meals to begin'}</span>
+          <span className="kicker">{product.category}</span>
+          <h2>{product.title}</h2>
+          <p>{product.description}</p>
+          <div className="ingredients">
+            <strong>Contents</strong>
+            <span>{product.ingredients}</span>
+          </div>
+          <div className="macro-grid">
+            <Macro label="Protein" value={product.macros.protein} />
+            <Macro label="Carbs" value={product.macros.carbs} />
+            <Macro label="Fats" value={product.macros.fats} />
+            <Macro label="Fiber" value={product.macros.fiber} />
+          </div>
+          <div className="modal-buy">
+            <strong>₹{product.price} · {product.calories} kcal</strong>
+            <button type="button" onClick={() => add(product)}><Plus size={16} /> Add to cart</button>
+          </div>
         </div>
-        <button type="button" onClick={close} aria-label="Close cart">
-          <X size={20} />
-        </button>
+      </section>
+    </div>
+  )
+}
+
+function Macro({ label, value }) {
+  return (
+    <div className="macro-card">
+      <span>{label}</span>
+      <strong>{value}g</strong>
+      <div><i style={{ width: `${Math.min(value, 75)}%` }} /></div>
+    </div>
+  )
+}
+
+function Basket({ cart, cartCount, subtotal, update, checkout }) {
+  return (
+    <section className="basket-card glass">
+      <div className="panel-head">
+        <div>
+          <span className="kicker">Cart</span>
+          <h2>Your order</h2>
+        </div>
+        <span>{cartCount} items</span>
       </div>
-      <div className="cart-items">
-        {cart.length === 0 ? (
-          <p className="empty-cart">Your cart is waiting for a CalmFuel Box.</p>
-        ) : (
-          cart.map((item) => (
-            <div className="cart-row" key={item.title}>
-              <img src={item.image} alt="" />
-              <div>
-                <strong>{item.title}</strong>
-                <span>₹{item.price} · {item.calories} kcal</span>
-              </div>
-              <div className="qty">
-                <button type="button" onClick={() => updateQty(item.title, -1)}><Minus size={14} /></button>
-                <span>{item.qty}</span>
-                <button type="button" onClick={() => updateQty(item.title, 1)}><Plus size={14} /></button>
-              </div>
-            </div>
-          ))
+      <CartPreview cart={cart} update={update} />
+      <div className="basket-total">
+        <span>Subtotal</span>
+        <strong>₹{subtotal}</strong>
+      </div>
+      <button type="button" onClick={checkout}>Checkout</button>
+    </section>
+  )
+}
+
+function CartPreview({ cart, update }) {
+  if (!cart.length) return <p className="empty">Add a CalmFuel Box to start your Jabalpur order.</p>
+  return (
+    <div className="cart-list">
+      {cart.map((item) => (
+        <div className="cart-line" key={item.title}>
+          <img src={item.image} alt="" />
+          <div>
+            <strong>{item.title}</strong>
+            <span>₹{item.price}</span>
+          </div>
+          <div className="qty">
+            <button type="button" onClick={() => update(item.title, -1)}><Minus size={13} /></button>
+            <span>{item.qty}</span>
+            <button type="button" onClick={() => update(item.title, 1)}><Plus size={13} /></button>
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function Register({ profile, setProfile, next }) {
+  return (
+    <section className="form-page glass liquid">
+      <div>
+        <span className="eyebrow"><UserRound size={15} /> Simple registration</span>
+        <h1>Create your Nutrique profile</h1>
+        <p>Just enough information to personalize your Jabalpur meal delivery demo.</p>
+      </div>
+      <form onSubmit={(event) => { event.preventDefault(); next() }}>
+        <Field label="Full name" value={profile.name} onChange={(value) => setProfile({ ...profile, name: value })} required />
+        <Field label="Phone" value={profile.phone} onChange={(value) => setProfile({ ...profile, phone: value })} required />
+        <Field label="Email" value={profile.email} onChange={(value) => setProfile({ ...profile, email: value })} type="email" />
+        <button type="submit">Continue to address</button>
+      </form>
+    </section>
+  )
+}
+
+function Address({ address, setAddress, next }) {
+  return (
+    <section className="form-page glass liquid">
+      <div>
+        <span className="eyebrow"><LocateFixed size={15} /> Delivery address</span>
+        <h1>Where should we send it?</h1>
+        <p>Set your Jabalpur delivery details before payment.</p>
+      </div>
+      <form onSubmit={(event) => { event.preventDefault(); next() }}>
+        <Field label="House / office address" value={address.line} onChange={(value) => setAddress({ ...address, line: value })} required />
+        <label>
+          Area
+          <select value={address.area} onChange={(event) => setAddress({ ...address, area: event.target.value })}>
+            <option>Civil Lines</option>
+            <option>Napier Town</option>
+            <option>Vijay Nagar</option>
+            <option>Madan Mahal</option>
+            <option>Gwarighat Road</option>
+          </select>
+        </label>
+        <Field label="Delivery note" value={address.note} onChange={(value) => setAddress({ ...address, note: value })} />
+        <button type="submit">Continue to payment</button>
+      </form>
+    </section>
+  )
+}
+
+function Payment({ cart, subtotal, payment, setPayment, back }) {
+  const methods = ['UPI', 'Card', 'Cash on Delivery']
+  const [details, setDetails] = useState({ upi: '', card: '', expiry: '' })
+  return (
+    <section className="payment-page">
+      <div className="payment-main glass liquid">
+        <span className="eyebrow"><CreditCard size={15} /> Payment</span>
+        <h1>Review and pay</h1>
+        <p>This is a prototype payment screen. No real payment is collected.</p>
+        <div className="payment-methods">
+          {methods.map((method) => (
+            <button className={payment === method ? 'active' : ''} type="button" key={method} onClick={() => setPayment(method)}>
+              {method}
+            </button>
+          ))}
+        </div>
+        {payment === 'Card' && (
+          <div className="card-grid">
+            <Field label="Card number" value={details.card} onChange={(value) => setDetails({ ...details, card: value })} placeholder="4242 4242 4242 4242" />
+            <Field label="Expiry" value={details.expiry} onChange={(value) => setDetails({ ...details, expiry: value })} placeholder="MM/YY" />
+          </div>
         )}
-      </div>
-      <div className="cart-foot">
-        <div>
-          <span>Subtotal</span>
-          <strong>₹{cartTotal}</strong>
+        {payment === 'UPI' && <Field label="UPI ID" value={details.upi} onChange={(value) => setDetails({ ...details, upi: value })} placeholder="name@upi" />}
+        <div className="payment-actions">
+          <button type="button" onClick={back}>Back</button>
+          <button type="button"><CheckCircle2 size={18} /> Confirm demo order</button>
         </div>
-        <small>Free delivery applied on your first order.</small>
-        <button type="button">Checkout</button>
+      </div>
+      <aside className="payment-summary glass">
+        <h2>Order Summary</h2>
+        <CartPreview cart={cart} update={() => {}} />
+        <div className="basket-total">
+          <span>Total</span>
+          <strong>₹{subtotal}</strong>
+        </div>
+      </aside>
+    </section>
+  )
+}
+
+function Field({ label, value, onChange, type = 'text', required = false, placeholder = '' }) {
+  return (
+    <label>
+      {label}
+      <input value={value} onChange={(event) => onChange(event.target.value)} type={type} required={required} placeholder={placeholder} />
+    </label>
+  )
+}
+
+function Plans({ setPage }) {
+  return (
+    <section className="plans-page glass liquid">
+      <span className="eyebrow"><CalendarCheck size={15} /> Subscribe and save</span>
+      <h1>Plans that feel like food delivery, not homework.</h1>
+      <div className="plan-grid">
+        {[
+          ['Weekly Plan', '5 meals', '20% OFF', '₹549'],
+          ['Monthly Plan', '24 meals', 'Best Value', '₹2399'],
+        ].map(([name, meals, tag, price]) => (
+          <article className="plan-tile glass" key={name}>
+            <span>{tag}</span>
+            <h2>{name}</h2>
+            <p>{meals} with flexible veg, non-veg, bowls, and smoothies.</p>
+            <strong>{price}</strong>
+            <button type="button" onClick={() => setPage('Register')}>Start plan</button>
+          </article>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function CartDrawer({ open, close, cart, update, subtotal, checkout }) {
+  return (
+    <aside className={`drawer glass ${open ? 'open' : ''}`}>
+      <div className="drawer-head">
+        <div>
+          <strong>Nutrique Cart</strong>
+          <span>Delivery to Jabalpur</span>
+        </div>
+        <button type="button" onClick={close} aria-label="Close cart"><X size={20} /></button>
+      </div>
+      <CartPreview cart={cart} update={update} />
+      <div className="drawer-foot">
+        <div>
+          <span>Total</span>
+          <strong>₹{subtotal}</strong>
+        </div>
+        <button type="button" onClick={checkout}>Checkout</button>
       </div>
     </aside>
   )
